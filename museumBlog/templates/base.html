@@ -1,0 +1,76 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <title>{% block title %}Музеи Узбекистана{% endblock %}</title>
+  </head>
+  <body style="background-color: orange;">
+
+{% include 'inc/_nav.html' %}
+
+  <div class="container mt-3">
+      <hr>
+      <h1>{{ title }}</h1>
+<!--      <h5>Количество новостей: {{ news.count }}</h5>-->
+      <hr>
+
+      <div class="row">
+
+          <div class="col-md-3">
+              {% block sidebar %}SIDEBAR{% endblock %}
+          </div>
+
+          <div class="col-md-9">
+              {% block content %}CONTENT{% endblock %}
+
+              {% if is_paginated %}
+                {% if page_obj.has_previous %}
+                    <a href="?page=1" class="btn btn-outline-primary">Начало</a>
+                    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-primary">Предыдущая</a>
+                {% endif %}
+
+            <!--  Начало Предыдущая 2 3 4 5 6 7 8 Следующая Последняя -->
+                {% for num in page_obj.paginator.page_range %}
+                    {% if num == page_obj.number %}
+                        <button class="btn btn-primary">{{ num }}</button>
+                    {% elif num > page_obj.number|add:'-3' and  num < page_obj.number|add:'3' %}
+                        <a href="?page={{ num }}" class="btn btn-outline-primary">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-primary">Следующая</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-outline-primary">Последняя</a>
+                {% endif %}
+              {% endif %}
+
+          </div>
+
+      </div>
+  </div>
+
+<footer style="padding: 30px; background: #343a40; color: #f1efef; float: left; width: 100%; margin-top: 50px">
+      <div class="container">
+        <p class="float-right">
+          <a href="#">Наверх</a>
+        </p>
+        <p>© Музеи Узбекистана </p>
+          <p class="float-right">
+          <a>28.05.2020</a>
+        </p>
+        <p>Впервые на сайте? <a href="/">Посетить главную страницу</a> или прочитать
+            <a href="{% url 'blog-contacti' %}">О нас</a>.</p>
+      </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+  </body>
+</html>
