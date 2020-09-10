@@ -21,11 +21,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'o#bzy6&2ayq&j(iv7lt0r24#pf+7$y3wcbb#i967l2%87)@5g9'
-# SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'o#bzy6&2ayq&j(iv7lt0r24#pf+7$y3wcbb#i967l2%87)@5g9')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-# DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 ALLOWED_HOSTS = []
 
 
@@ -137,24 +135,3 @@ MEDIA_URL = '/media/'
 
 
 
-# Heroku settings
-if os.getcwd() == '/blogapp':
-    import dj_database_url
-    # db_from_env = dj_database_url.config(conn_max_age=500)
-    # DATABASES['default'].update(db_from_env)
-    DATABASES = {
-        'default': dj_database_url.config(default='mysql://localhost')
-    }
-    # Honor the 'X-Forwarded-Proto' header for request.is_secure().
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-    # Allow all host headers.
-    ALLOWED_HOSTS = ['museums.herokuapp.com']
-    DEBUG = True
-
-    # Static asset configuration
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, 'museumBlog/static'),
-    ]
